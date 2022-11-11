@@ -12,7 +12,9 @@ const fetchUsers = () => {
     .get("http://localhost:3000/users")
     .then((res) => (users.value = res.data));
 };
-
+onMounted(() => {
+  fetchUsers();
+});
 const name = ref("");
 const surname = ref("");
 //
@@ -29,8 +31,8 @@ const createUser = () => {
       // window.location.reload()
       fetchUsers();
     });
-  name.value = null;
-  surname.value = null;
+  name.value = "";
+  surname.value = "";
 };
 
 //? edit func
@@ -43,6 +45,9 @@ const editUser = (user) => {
   surname.value = user.surname;
   id.value = user.id;
 };
+
+//update user
+
 const updateUser = () => {
   axios
     .put(`http://localhost:3000/users/` + id.value, {
@@ -60,10 +65,12 @@ const updateUser = () => {
   id.value = null;
   isEdit.value = false;
 };
+
+//delete user
 const deleteUser = (id) => {
   try {
     axios
-      .delete("https:/localhost:3000/users" + id, {})
+      .delete("http://localhost:3000/users/" + id)
       .then(() => {
         console.log("user delete");
       })
@@ -78,7 +85,7 @@ const deleteUser = (id) => {
 
 <template>
   <h2>create user</h2>
-  <form action="#" method="POST" @submit.prevent="createUser">
+  <form action="#" method="POST" @submit.prevent>
     <input
       v-model="name"
       type="text"
@@ -93,15 +100,20 @@ const deleteUser = (id) => {
       id="surname"
       placeholder="enter your surname"
     />
-    <button type="submit" @click="createUser" v-if="!isEdit">add</button>
-    <button type="submit" @click="updateUser" v-else>update</button>
+    <button @click="createUser" v-if="!isEdit">add</button>
+    <button @click="updateUser" v-else>update</button>
   </form>
   <h2>all user</h2>
   <ul>
     <li v-for="user in users" :key="user.id">
       <span> {{ user.id }}-{{ user.name }} {{ user.surname }} </span> |
-      <span style="color: cyan" @click="editUser(user)"> edit</span> |
-      <span style="color: red" @click="deleteUser(user.id)"> delete</span>
+      <span style="color: cyan; cursor: pointer" @click="editUser(user)">
+        edit</span
+      >
+      |
+      <span style="color: red; cursor: pointer" @click="deleteUser(user.id)">
+        delete</span
+      >
     </li>
   </ul>
 </template>
