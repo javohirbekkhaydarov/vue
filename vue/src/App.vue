@@ -1,199 +1,80 @@
 <script setup>
-import { ref, onMounted } from "vue";
-
-//axios
-
-import axios from "axios";
-const users = ref([]);
-
-//?OnMounted
-const fetchUsers = () => {
-  const data = axios
-    .get("http://localhost:3000/users")
-    .then((res) => (users.value = res.data));
-};
-onMounted(() => {
-  fetchUsers();
-});
-const name = ref("");
-const surname = ref("");
-//
-const createUser = () => {
-  axios
-    .post("http://localhost:3000/users", {
-      name: name.value,
-      surname: surname.value,
-    })
-    .then(() => {
-      console.log("add user");
-    })
-    .finally(() => {
-      // window.location.reload()
-      fetchUsers();
-    });
-  name.value = null;
-  surname.value = null;
-
-};
-
-//? edit func
-const isEdit = ref(false);
-const id = ref(null);
-const editUser = (user) => {
-  isEdit.value = true;
-  console.log(user);
-  name.value = user.name;
-  surname.value = user.surname;
-  id.value = user.id;
-};
-
-//update user
-
-const updateUser = () => {
-  axios
-    .put(`http://localhost:3000/users/` + id.value, {
-      name: name.value,
-      surname: surname.value,
-    })
-    .then(() => {
-      console.log("user update  ");
-    })
-    .finally(() => {
-      fetchUsers();
-    });
-  name.value = "";
-  surname.value = "";
-  id.value = null;
-  isEdit.value = false;
-};
-
-//delete user
-const deleteUser = (id) => {
-  try {
-    axios
-      .delete("http://localhost:3000/users/" + id)
-      .then(() => {
-        console.log("user delete");
-      })
-      .finally(() => {
-        fetchUsers();
-      });
-  } catch (e) {
-    console.log(e);
-  }
-};
+import { ChipIcon, MenuAlt3Icon } from "@heroicons/vue/outline";
 </script>
 
 <template>
-  <h2>create user</h2>
-  <form action="#" method="POST" @submit.prevent>
-    <div>
-      <input v-model="name" type="text" name="text" id="text" />
-      <label for="name"> enter your name </label>
+  <div class="px-6 py-6 w-full text-white min-h-screen bg-mainly font-sans">
+    <!--? logo -->
+    <div class="flex justify-between items-center">
+      <div class="flex space-x-2 py-2 px-2">
+        <span> <ChipIcon class="w-6 h-6" /> </span>
+        <span class="uppercase text-white font-blod"> Ender</span>
+      </div>
+      <div>
+        <MenuAlt3Icon class="w-6 h-6" />
+      </div>
     </div>
-    <div>
-      <input v-model="surname" type="text" name="surname" id="surname" />
-      <label for="surname">enter your surname</label>
-    </div>
-    <button class="btn" @click="createUser" v-if="!isEdit">add</button>
-    <button class="btn" @click="updateUser" v-else>update</button>
-  </form>
-  <h2>all user</h2>
-  <ul>
-    <li v-for="user in users" :key="user.id">
-      <span> {{ user.id }}-{{ user.name }} {{ user.surname }} </span> |
-      <span style="color: cyan; cursor: pointer" @click="editUser(user)">
-        edit</span
+
+    <!-- ? main -->
+    <main class="flex flex-col mt-12">
+      <h1 class="text-3xl font-bold">
+        Congrutlation! You've <br />
+        won the Commpetition!👏
+      </h1>
+      <div class="grid grid-cols-1 gap-3 my-5 sm:grid-cols-3">
+        <div class="h-26">
+          <img
+            class="object-cover w-full rounded-sm"
+            src="https://picsum.photos/980/1200"
+            alt=""
+          />
+        </div>
+        <div class="h-26">
+          <img
+            class="object-cover w-full rounded-sm"
+            src="https://picsum.photos/980/1201"
+            alt=""
+          />
+        </div>
+        <div class="h-26">
+          <img
+            class="object-cover w-full rounded-sm"
+            src="https://picsum.photos/980/1202"
+            alt=""
+          />
+        </div>
+      </div>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        <span class="text-markText font-blod">
+          Consequatur perspiciatis id iusto autem
+        </span>
+        quos saepe voluptate ut facere ducimus consectetur nostrum adipisci
+        nulla, quod eveniet eos quibusdam minima at temporibus.
+      </p>
+      <div
+        class="w-auto px-6 py-4 bg-second flex justify-between items-center border rounded-sm border-gray-900"
       >
-      |
-      <span style="color: red; cursor: pointer" @click="deleteUser(user.id)">
-        delete</span
-      >
-    </li>
-  </ul>
+        <div class="flex flex-col">
+          <span class="text-gray-400">You won</span>
+          <span class="text-2xl font-bold">$75.00</span>
+          <span class="text-gray-400">Account Balance: $175</span>
+        </div>
+        <div>
+          <a
+            href="# "
+            class="uppercase bg-white text-gray-700 font-blod rounded-sm font-bold p-2"
+            >View Result</a
+          >
+        </div>
+      </div>
+    </main>
+    <button
+      class="m-5 p-2 br-3 bg-green-500 text-white border border-green-400 rounded-lg hover:bg-green-400 transition"
+    >
+      button
+    </button>
+  </div>
 </template>
 
-<style scoped>
-div {
-  width: 400px;
-  margin: 40px auto;
-  text-align: center;
-  position: relative;
-  font-family: Arial, Helvetica, sans-serif;
-}
-div input {
-  padding: 25px 15px 15px;
-  border: 1px solid #673ab7;
-}
-input:focus {
-  outline: none;
-}
-div label {
-  position: absolute;
-
-  color: #777;
-  transition: all 0.3s;
-  cursor: text;
-}
-label {
-  top: 5px;
-  left: 105px;
-  font-size: 12px;
-  color: #673ab7;
-}
-p {
-  font: 25px bold arial, helvetica, sans-serif;
-  margin-top: 80px;
-  text-align: center;
-}
-
-.btn {
-  position: absolute;
-  font-family: "Open Sans", sans-serif;
-  letter-spacing: 2px;
-  font-weight: 200;
-  top: 110%;
-  left: 45%;
-  border: none;
-  padding: 10px 20px;
-  margin: 0;
-  box-shadow: none;
-  color: white;
-  background: #ee0979; /* fallback for old browsers */
-  background: linear-gradient(to right, #ff6a00, #ee0979);
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  font-size: x-large;
-  background-size: 400% 400%;
-  animation: ButtonBg 10s ease infinite;
-}
-
-.btn:hover {
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
-}
-
-.btn:active {
-  display: none;
-}
-
-@keyframes ButtonBg {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* list */
-ul li {
-  text-align: center;
-  font-size: 22px;
-  list-style: none;
-}
-</style>
+<style></style>
