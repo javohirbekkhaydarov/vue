@@ -16,5 +16,16 @@
   "profile": {
     "name": "typicode"
   },
-  "users": []
+  "users": [
+    {
+      "name": "Angelina",
+      "surname": "j",
+      "id": 1
+    },
+    {
+      "name": null,
+      "surname": null,
+      "id": 2
+    }
+  ]
 }
