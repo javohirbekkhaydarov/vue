@@ -36,7 +36,7 @@ import { SearchIcon } from "@heroicons/vue/outline";
       </div>
     </div>
     <!-- menu navbar -->
-    <nav class="uppercase font-bold text-gray-500 flex justify-around my-2">
+    <nav class="uppercase font-normal text-gray-500 flex justify-around my-2">
       <ul class="flex justify-between space-x-6">
         <li><a href="#">home</a></li>
         <li><a href="#">life</a></li>
