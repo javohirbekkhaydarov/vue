@@ -4,12 +4,13 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Montserrat', 'sans-serif']
+        serif: ['DM Serif Text', 'sans-serif']
       },
       colors: {
         mainly: "#080808",
         markText: '#01ff48',
-        second:'#1b1b1b'
+        second:'#1b1b1b',
+        back: '#f8f8f8',
       },
     },
   },
