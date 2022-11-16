@@ -1,5 +1,5 @@
 {
-  "name": " vue",
+  "name": "vue",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
